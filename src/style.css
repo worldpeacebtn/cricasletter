@@ -14,17 +14,17 @@
   font-display: block;
 }
 :root {
-  --main-bg-color-dark: #070707;
-  --main-bg-color-light: #fff;
-  --text-color-dark: #b3b3b3;
-  --text-color-light: #000;
-  --hover-color-dark: grey;
+  --main-bg-color-dark: #000000;
+  --main-bg-color-light: #2c0212;
+  --text-color-dark: #c8c2d1;
+  --text-color-light: #801515;
+  --hover-color-dark: rgb(114, 20, 20);
   --d: 2500ms;
   --angle: 90deg;
   --gradX: 100%;
   --gradY: 50%;
   --c1: rgba(253, 253, 253, 1);
-  --c2: grey;
+  --c2: rgb(80, 12, 65);
 }
 * {
   margin: 0;
@@ -166,6 +166,7 @@ body.dark a {
   align-items: center;
   pointer-events: auto;
   cursor: pointer;
+  margin-top: 1em;
 }
 .stroke {
   display: block;
@@ -225,6 +226,23 @@ body.dark a {
 }
 .social-media > a > i:hover {
   color: var(--hover-color-dark);
+}
+
+/*#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+} fullbg video*/
+
+#bg-video {
+  padding: 1em;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
 }
 
 .scrollable {

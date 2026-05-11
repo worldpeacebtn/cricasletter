@@ -9,6 +9,7 @@ import SplitType from 'split-type';
 import click from '../static/Audio/click.mp3';
 import hover from '../static/Audio/hover.mp3';
 import bg from '../static/Audio/bg.mp3';
+import bg2 from '../static/Audio/bg2.mp3';
 import imageDark from '../static/textures/6.png';
 import imageLight from '../static/textures/8.png';
 import logo from '../static/images/logo.png';
@@ -17,6 +18,8 @@ import castlebt from '../static/images/castleBattle.png';
 import innovision from '../static/images/innovision.png';
 import trinity from '../static/images/trinity.png';
 import coattain from '../static/images/coAttainment.png';
+
+// import vid from '../static/videos/video1.mp4';
 
 /** ===========================================================================================
  * *                                    DOM Manipulation
@@ -318,28 +321,86 @@ scene.add(camera);
 /** ===========================================================================================
  * *                                    Loading manager
 =========================================================================================== */
-const musicBarsDiv = document.querySelector('.music-bars')
-const musicBars = document.querySelectorAll('.stroke');
-console.log(musicBars);
+const bars1 = document.getElementById('bars1');
+const bars2 = document.getElementById('bars2');
+
+const strokes1 = bars1.querySelectorAll('.stroke');
+const strokes2 = bars2.querySelectorAll('.stroke');
+
 const progressBar = document.querySelector('.loading-progress');
-let SoundPlaying = false;
-musicBarsDiv.addEventListener('click', () => {
+
+let currentAudio = null;
+let currentBars = null;
+
+function pauseBars(bars){
+    bars.forEach((stroke) => {
+        stroke.style.animationPlayState = 'paused';
+    });
+}
+
+function playBars(bars){
+    bars.forEach((stroke) => {
+        stroke.style.animationPlayState = 'running';
+    });
+}
+
+bars1.addEventListener('click', () => {
+
     ctx.resume();
-    if (!SoundPlaying) {
-        for (let i = 0; i < 5; i++) {
-            musicBars[i].style.animationPlayState = 'running'
-        }
-        background.play();
-        SoundPlaying = true;
-    }
-    else {
-        for (let i = 0; i < 5; i++) {
-            musicBars[i].style.animationPlayState = 'paused';
-        }
+
+    // TOGGLE PAUSE
+    if(currentAudio === background && background.isPlaying){
+
         background.pause();
-        SoundPlaying = false;
+        video.pause();
+        pauseBars(strokes1);
+
+        currentAudio = null;
+
+        return;
     }
-})
+
+    // STOP OTHER AUDIO
+    background2.pause();
+    pauseBars(strokes2);
+
+    // PLAY NEW AUDIO
+    background.play();
+    video.play();
+
+    playBars(strokes1);
+
+    currentAudio = background;
+});
+
+bars2.addEventListener('click', () => {
+
+    ctx.resume();
+
+    // TOGGLE PAUSE
+    if(currentAudio === background2 && background2.isPlaying){
+
+        background2.pause();
+        video.pause();
+        pauseBars(strokes2);
+
+        currentAudio = null;
+
+        return;
+    }
+
+    // STOP OTHER AUDIO
+    background.pause();
+    pauseBars(strokes1);
+
+    // PLAY NEW AUDIO
+    background2.play();
+    video.play();
+
+    playBars(strokes2);
+
+    currentAudio = background2;
+});
 const loadingManager = new THREE.LoadingManager(
     // Loaded
     () => {
@@ -414,9 +475,11 @@ const ctx = new (window.AudioContext)();
 const hoverSound = new THREE.Audio(audioListener);
 const clickSound = new THREE.Audio(audioListener);
 const background = new THREE.Audio(audioListener);
+const background2 = new THREE.Audio(audioListener);
 scene.add(hoverSound);
 scene.add(clickSound);
 scene.add(background);
+scene.add(background2);
 
 // instantiate a loader
 const loader = new THREE.AudioLoader(loadingManager);
@@ -449,6 +512,14 @@ loader.load(
         background.setBuffer(audioBuffer);
         background.setLoop(true);
         background.setVolume(0.6);
+    }
+)
+loader.load(
+    bg2,
+    function (audioBuffer) {
+        background2.setBuffer(audioBuffer);
+        background2.setLoop(true);
+        background2.setVolume(0.6);
     }
 );
 
