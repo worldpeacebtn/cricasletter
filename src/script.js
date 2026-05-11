@@ -352,7 +352,6 @@ bars1.addEventListener('click', () => {
     if(currentAudio === background && background.isPlaying){
 
         background.pause();
-        video.pause();
         pauseBars(strokes1);
 
         currentAudio = null;
@@ -366,7 +365,6 @@ bars1.addEventListener('click', () => {
 
     // PLAY NEW AUDIO
     background.play();
-    video.play();
 
     playBars(strokes1);
 
@@ -381,7 +379,6 @@ bars2.addEventListener('click', () => {
     if(currentAudio === background2 && background2.isPlaying){
 
         background2.pause();
-        video.pause();
         pauseBars(strokes2);
 
         currentAudio = null;
@@ -395,7 +392,6 @@ bars2.addEventListener('click', () => {
 
     // PLAY NEW AUDIO
     background2.play();
-    video.play();
 
     playBars(strokes2);
 
@@ -470,6 +466,26 @@ textureLoader.load(logo);
 const audioListener = new THREE.AudioListener();
 camera.add(audioListener);
 const ctx = new (window.AudioContext)();
+
+const video = document.getElementById("bg-video");
+
+//video.addEventListener("mouseover", () => {
+//    video.setAttribute("controls", "true");
+//});
+
+video.addEventListener("mouseout", () => {
+    video.removeAttribute("controls");
+});
+
+video.addEventListener("click", () => {
+
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+
+});
 
 // instantiate audio object
 const hoverSound = new THREE.Audio(audioListener);

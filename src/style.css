@@ -136,7 +136,7 @@ body.dark a {
 .side-bar {
   height: 100vh;
   width: 18vw;
-  z-index: 1;
+  z-index: 9999;
   position: fixed;
   left: 0;
   top: 0;
@@ -144,13 +144,43 @@ body.dark a {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  pointer-events: none;
+  pointer-events: all;
   padding: 50px 0;
+  overflow-y: scroll;
 }
 .side-bar > .logo > img {
   width: 100px;
   pointer-events: none;
 }
+.side-bar::-webkit-scrollbar {
+  width: 4px;
+  opacity: 0;
+}
+.side-bar-2::-webkit-scrollbar {
+  width: 0px;
+  opacity: 0;
+}
+
+.side-bar:hover::-webkit-scrollbar-thumb,
+.side-bar:active::-webkit-scrollbar-thumb,
+.side-bar-2:hover::-webkit-scrollbar-thumb,
+.side-bar-2:active::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+}
+
+.side-bar i,
+.side-bar-2 i {
+  transition: 0.2s ease;
+}
+
+.side-bar i:hover,
+.side-bar-2 i:hover {
+  transform: scale(1.15);
+  color: var(--hover-color-dark);
+}
+
+
 .folio > p {
   transform: rotate(-90deg);
   font-family: "Roboto Mono", monospace;
@@ -212,7 +242,7 @@ body.dark a {
   align-items: center;
 }
 .social-media {
-  margin-bottom: 30px;
+ /* margin-bottom: 30px;*/
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -243,6 +273,9 @@ body.dark a {
   width: 100%;
   height: 100%;
   z-index: 999;
+  pointer-events: auto;
+  cursor:pointer;
+  border-radius: 25px;
 }
 
 .scrollable {
@@ -366,16 +399,17 @@ body.dark a {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 120px;
-  height: 50px;
-  background: white;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.37);
   box-sizing: border-box;
   transform: rotate(90deg);
-  color: black;
+  color: rgb(0, 0, 0);
   pointer-event: auto;
   cursor: pointer;
   font-family: "Roboto Mono", monospace;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 1rem;
 }
 
 .resume-box > i {
@@ -737,7 +771,11 @@ span {
   }
   .folio > p {
     font-size: 12px;
-    width: 200px;
+    /*width: 200px; longer version*/
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    white-space: nowrap
   }
   .scrollable {
     z-index: 1;
@@ -797,8 +835,12 @@ span {
   }
   .side-bar-2 {
     height: 100vh;
-    width: 15vw;
-    padding: 20px 0;
+    width: 7vw;
+    padding: 3rem 0;
+    pointer-events: all;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
   }
   .checkbox {
     opacity: 0;
