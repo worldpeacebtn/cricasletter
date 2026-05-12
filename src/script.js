@@ -650,6 +650,9 @@ const tick = () => {
     // Update controls
     controls.update()
 
+    //mouseffect
+    updateParticles();
+
     // Render
     renderer.render(scene, camera);
 
@@ -658,3 +661,118 @@ const tick = () => {
 }
 
 tick()
+
+//document.addEventListener("mousemove", (e) => {
+//  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+//  const y = (e.clientY / window.innerHeight - 0.5) * 10;
+
+//  document.documentElement.style.setProperty("--mouse-x", `${x}px`);
+//  document.documentElement.style.setProperty("--mouse-y", `${y}px`);
+//});
+
+document.addEventListener("mousemove", (e) => {
+
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+
+    // =====================================================
+    // CSS variables
+    // =====================================================
+
+    const x = (mouseX - 0.5) * 10;
+    const y = (mouseY - 0.5) * 10;
+
+    document.documentElement.style.setProperty("--mouse-x", `${x}px`);
+    document.documentElement.style.setProperty("--mouse-y", `${y}px`);
+
+    // =====================================================
+    // Gradient sphere movement
+    // =====================================================
+
+    gradientSpheres.forEach((sphere, index) => {
+
+        const multiplier = (index + 1) * 8;
+
+        gsap.to(sphere, {
+            x: (mouseX - 0.5) * multiplier,
+            y: (mouseY - 0.5) * multiplier,
+            duration: 1.5,
+            ease: "power2.out"
+        });
+    });
+
+    // =====================================================
+    // Three.js mesh interaction
+    // =====================================================
+
+    gsap.to(mesh.rotation, {
+        y: x * 0.03,
+        x: y * 0.03,
+        duration: 1.5
+    });
+
+    gsap.to(mouseGlow, {
+    x: e.clientX,
+    y: e.clientY,
+    duration: 0.6,
+    ease: "power2.out"
+});
+
+});
+
+
+/** ===========================================================================================
+ * *                                    Gradient Background
+=========================================================================================== */
+
+const mouseGlow = document.querySelector('.mouse-glow');
+
+const particlesContainer = document.getElementById('particles-container');
+const gradientSpheres = document.querySelectorAll('.gradient-sphere');
+
+const particles = [];
+const particleCount = mobile ? 30 : 80;
+
+function createParticle() {
+
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    const size = Math.random() * 3 + 1;
+
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+
+    particle.x = Math.random() * window.innerWidth;
+    particle.y = Math.random() * window.innerHeight;
+
+    particle.speedX = (Math.random() - 0.5) * 0.3;
+    particle.speedY = -Math.random() * 0.5 - 0.2;
+
+    particle.style.opacity = Math.random() * 0.3;
+
+    particlesContainer.appendChild(particle);
+
+    particles.push(particle);
+}
+
+for(let i = 0; i < particleCount; i++) {
+    createParticle();
+}
+
+function updateParticles() {
+
+    particles.forEach((particle) => {
+
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+
+        if(particle.y < -20) {
+            particle.y = window.innerHeight + 20;
+            particle.x = Math.random() * window.innerWidth;
+        }
+
+        particle.style.transform =
+            `translate(${particle.x}px, ${particle.y}px)`;
+    });
+}
