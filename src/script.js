@@ -660,6 +660,68 @@ const tick = () => {
     window.requestAnimationFrame(tick);
 }
 
+const particlesContainer = document.getElementById('particles-container');
+
+const particles = [];
+const particleCount = mobile ? 30 : 80;
+
+/** ===========================================================================================
+ * *                                    Gradient Background
+=========================================================================================== */
+
+const mouseGlow = document.querySelector('.mouse-glow');
+
+const gradientSpheres = document.querySelectorAll('.gradient-sphere');
+
+function createParticle() {
+
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    const size = Math.random() * 3 + 1;
+
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.position = "fixed";
+particle.style.left = "0px";
+particle.style.top = "0px";
+particle.style.transform = `translate3d(${particle.x}px, ${particle.y}px, 0)`;
+
+    particle.x = Math.random() * window.innerWidth;
+    particle.y = Math.random() * window.innerHeight;
+
+    particle.speedX = (Math.random() - 0.5) * 0.3;
+    particle.speedY = -Math.random() * 0.5 - 0.2;
+
+    particle.style.opacity = Math.random() * 0.3;
+
+    particlesContainer.appendChild(particle);
+
+    particles.push(particle);
+}
+
+for(let i = 0; i < particleCount; i++) {
+    createParticle();
+}
+
+function updateParticles() {
+
+    particles.forEach((particle) => {
+
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+
+        if(particle.y < -20) {
+            particle.y = window.innerHeight + 20;
+            particle.x = Math.random() * window.innerWidth;
+        }
+
+        particle.style.transform =
+            `translate(${particle.x}px, ${particle.y}px)`;
+    });
+}
+
+
 tick()
 
 //document.addEventListener("mousemove", (e) => {
@@ -721,58 +783,3 @@ document.addEventListener("mousemove", (e) => {
 });
 
 
-/** ===========================================================================================
- * *                                    Gradient Background
-=========================================================================================== */
-
-const mouseGlow = document.querySelector('.mouse-glow');
-
-const particlesContainer = document.getElementById('particles-container');
-const gradientSpheres = document.querySelectorAll('.gradient-sphere');
-
-const particles = [];
-const particleCount = mobile ? 30 : 80;
-
-function createParticle() {
-
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-
-    const size = Math.random() * 3 + 1;
-
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-
-    particle.x = Math.random() * window.innerWidth;
-    particle.y = Math.random() * window.innerHeight;
-
-    particle.speedX = (Math.random() - 0.5) * 0.3;
-    particle.speedY = -Math.random() * 0.5 - 0.2;
-
-    particle.style.opacity = Math.random() * 0.3;
-
-    particlesContainer.appendChild(particle);
-
-    particles.push(particle);
-}
-
-for(let i = 0; i < particleCount; i++) {
-    createParticle();
-}
-
-function updateParticles() {
-
-    particles.forEach((particle) => {
-
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
-
-        if(particle.y < -20) {
-            particle.y = window.innerHeight + 20;
-            particle.x = Math.random() * window.innerWidth;
-        }
-
-        particle.style.transform =
-            `translate(${particle.x}px, ${particle.y}px)`;
-    });
-}
