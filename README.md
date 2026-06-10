@@ -1,10 +1,10 @@
 # X42 - CASE_PR0_SUM
-<img width="1440" alt="Erst kommt JESUS, dann die KATZE!" src="">
+<img width="1440" alt="Erst kommt JeSUS, dann die KATZE!" src="">
 
 
 
 ## Live
-[Visit]([https://sk027.vercel.app](https://xox-blond.vercel.app))
+[Visit]([https://sk027.vercel.app](https://xox-blond.vercel.app])
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
