@@ -4,7 +4,7 @@
 
 
 ## Live
-[Visit]([https://sk027.vercel.app](https://xox-blond.vercel.app)])
+[Visit]([https://sk027.vercel.app](https://xox-blond.vercel.app))
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
